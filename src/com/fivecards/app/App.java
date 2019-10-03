@@ -10,9 +10,22 @@ public class App {
     public static void main(String[] args) {
         System.out.println("App is reaching");
 
-        Deck deck = new Deck();
-        deck.prepareDeck();
-        deck.shuffleCards();
-        deck.showDeck();
+        Game game = new Game();
+        
+        Player player = new Player();
+        player.setId(1);
+        player.setName("Nagaraj");
+        
+        Player player1 = new Player();
+        player1.setId(2);
+        player1.setName("System");
+        
+        game.addPlayer(player);
+        game.addPlayer(player1);
+        
+        game.startGame();
+        game.showPlayerCards();
+        
+        System.out.println(game.getDeck().getCards().size());
     }
 }

@@ -8,7 +8,11 @@ public class Player {
     private int id;
     private List<Card> cards;
 
-    public Player(String name, int id, List<Card> cards) {
+    public Player() {
+		super();
+	}
+
+	public Player(String name, int id, List<Card> cards) {
         this.name = name;
         this.id = id;
         this.cards = cards;
