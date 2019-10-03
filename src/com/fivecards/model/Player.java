@@ -1,5 +1,6 @@
 package com.fivecards.model;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Player {
@@ -42,5 +43,15 @@ public class Player {
         this.cards = cards;
     }
 
-    
+	public void dropCard(Card droppingCard) {
+		Iterator<Card> iterator = cards.iterator();
+		while(iterator.hasNext()) {
+			Card card = iterator.next();
+			if (card.getDisplayNumber().equals(droppingCard.getDisplayNumber())) {
+				iterator.remove();
+				break;
+			}
+		}
+	}
+
 }

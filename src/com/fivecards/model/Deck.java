@@ -23,7 +23,7 @@ public class Deck {
 	public void setDroppedCards(List<Card> droppedCards) {
 		this.droppedCards = droppedCards;
 	}
-	
+
 	public void addDroppedCard(Card card) {
 		this.droppedCards.add(card);
 	}
@@ -54,7 +54,7 @@ public class Deck {
 			createNumericCard(TYPES[i]);
 			createSpecialCard(TYPES[i]);
 		}
-		
+
 		addJokerCard();
 		return cards;
 	}
@@ -64,7 +64,7 @@ public class Deck {
 		jokerCard.setCode("0-Joker");
 		jokerCard.setType("");
 		jokerCard.setValue(0);
-		
+
 		deckCards.add(jokerCard);
 	}
 
@@ -131,4 +131,5 @@ public class Deck {
 		deckCards = droppedCards;
 		droppedCards = new ArrayList<>();
 	}
+
 }
