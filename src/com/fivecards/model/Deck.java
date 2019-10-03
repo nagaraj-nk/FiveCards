@@ -47,7 +47,7 @@ public class Deck {
 
 	private void addJokerCard() {
 		Card jokerCard = new Card();
-		jokerCard.setCode("0 Joker");
+		jokerCard.setCode("0-Joker");
 		jokerCard.setType("");
 		jokerCard.setValue(0);
 		
