@@ -12,6 +12,14 @@ public class Game {
 	private Card randomJokerCard;
 	private Card openCard;
 
+	public Card getOpenCard() {
+		return openCard;
+	}
+
+	public void setOpenCard(Card openCard) {
+		this.openCard = openCard;
+	}
+
 	public Game() {
 		super();
 		this.players = new ArrayList<>();
@@ -65,18 +73,48 @@ public class Game {
 	}
 
 	public void pickCardFromDeck() {
-		double num = deck.getCards().size();
-		int randomInt = (int) (num * Math.random());
-		openCard = deck.getCards().get(randomInt);
-		deck.getCards().remove(randomInt);
-		System.out.println("Open card: " + openCard.getDisplayNumber());
+
+		if (deck.getCards().size() > 0) {
+			openCard = deck.getCards().get(0);
+			deck.getCards().remove(0);
+			deck.addDroppedCard(openCard);
+			System.out.println("Open card: " + openCard.getDisplayNumber());
+		} else {
+			System.out.println("Deck is empty, reshuffling cards...");
+			deck.reshuffle();
+		}
+		
 	}
 
 	public int calculatePoints(Player player) {
 		int points = 0;
 		for (int i = 0; i < player.getCards().size(); i++) {
-			points = points + player.getCards().get(i).getValue();
+			if (!randomJokerCard.getCode().equals(player.getCards().get(i).getCode()))
+				points = points + player.getCards().get(i).getValue();
 		}
 		return points;
+	}
+
+	public Card getBiggestCard(Player player) {
+		if (player.getCards().size() == 0)
+			return null;
+		Card card = player.getCards().get(0);
+		for (int i = 1; i < player.getCards().size(); i++) {
+			Card card1 = player.getCards().get(i);
+			if (card1.getValue() >= card.getValue() && !card.getCode().equals(randomJokerCard.getCode())
+					&& !card1.getCode().equals(randomJokerCard.getCode())) {
+				card = card1;
+			}
+		}
+		return card;
+	}
+
+	public String getSameCards(Player player) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i = 0; i < player.getCards().size(); i++) {
+			Card card1 = player.getCards().get(i);
+
+		}
+		return null;
 	}
 }

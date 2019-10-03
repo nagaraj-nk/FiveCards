@@ -14,9 +14,23 @@ public class Deck {
 
 	private Map<String, Integer> codeValueMap = new HashMap<>();
 	private List<Card> deckCards;
+	private List<Card> droppedCards;
+
+	public List<Card> getDroppedCards() {
+		return droppedCards;
+	}
+
+	public void setDroppedCards(List<Card> droppedCards) {
+		this.droppedCards = droppedCards;
+	}
+	
+	public void addDroppedCard(Card card) {
+		this.droppedCards.add(card);
+	}
 
 	public Deck() {
 		this.deckCards = new ArrayList<>();
+		this.droppedCards = new ArrayList<>();
 		initCodeValueMap();
 		prepareDeck();
 		shuffleCards();
@@ -110,5 +124,11 @@ public class Deck {
 		for (Card card : deckCards) {
 			System.out.println(card.getDisplayNumber());
 		}
+	}
+
+	public void reshuffle() {
+		Collections.shuffle(droppedCards);
+		deckCards = droppedCards;
+		droppedCards = new ArrayList<>();
 	}
 }
