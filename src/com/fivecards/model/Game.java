@@ -47,6 +47,11 @@ public class Game {
 		chooseSystemChallengingPoint();
 	}
 
+	public void restart() {
+		chooseSystemChallengingPoint();
+		deck.resetDeck();
+	}
+
 	private void chooseSystemChallengingPoint() {
 		systemChallengingPoint = SYSTEM_CHALLENGE_POINTS[RandomGenerator.generateRandomNumber(0, 3)];
 	}

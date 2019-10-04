@@ -29,6 +29,11 @@ public class Deck {
 	}
 
 	public Deck() {
+		super();
+		resetDeck();
+	}
+	
+	public void resetDeck() {
 		this.deckCards = new ArrayList<>();
 		this.droppedCards = new ArrayList<>();
 		initCodeValueMap();

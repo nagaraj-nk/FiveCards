@@ -6,8 +6,6 @@ package com.fivecards.app;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("App is reaching");
-
         GameRunner gameRunner = new GameRunner();
         gameRunner.runGame();
     }
