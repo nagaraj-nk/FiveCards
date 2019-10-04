@@ -144,6 +144,7 @@ public class Game {
 	}
 
 	public List<Integer> getCardIndicesSameOfOpenCard(Player systemPlayer) {
+		System.out.println(openCard.toString());
 		List<Integer> indices = new ArrayList<>();
 		for (int i = 0; i < systemPlayer.getCards().size(); i++) {
 			Card card = systemPlayer.getCards().get(i);

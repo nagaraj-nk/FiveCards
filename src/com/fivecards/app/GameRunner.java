@@ -60,13 +60,14 @@ public class GameRunner {
 	private void showMyPoints() {
 		int points = game.calculatePoints(me);
 		System.out.println("My Points: " + points);
+		System.out.println("System points: " + game.calculatePoints(systemPlayer));
 		System.out.println();
 	}
 
 	private void dispatchGameOption(int option) {
 		switch (option) {
 		case 1: {
-
+			challengeGame();
 			break;
 		}
 		case 2: {
@@ -77,8 +78,32 @@ public class GameRunner {
 		}
 	}
 
+	private void challengeGame() {
+		int points = game.calculatePoints(me);
+		System.out.println();
+		System.out.println("You are challenging for points: " + points);
+		System.out.println();
+
+		int systemPoints = game.calculatePoints(systemPlayer);
+
+		if (points < systemPoints) {
+			System.out.println("You won the game");
+			systemPlayer.updatePoints(systemPoints);
+		} else {
+			System.out.println("System won the game");
+			me.updatePoints(points);
+		}
+		displayPoints();
+	}
+
+	private void displayPoints() {
+		System.out.println("Your game points: " + me.getPoints());
+		System.out.println("System game points: " + systemPlayer.getPoints());
+	}
+
 	private void letSystemPlay() {
 
+		showCards(systemPlayer);
 		if (game.getOpenCard().getValue() >= 6) {
 			List<Integer> cardIndices = game.getCardIndicesSameOfOpenCard(systemPlayer);
 			if (cardIndices.size() > 0) {
@@ -117,10 +142,12 @@ public class GameRunner {
 		System.out.println("Which card you want to drop?");
 		listMyCards();
 		int cardIndex = Integer.parseInt(scanner.nextLine());
+		cardIndex = cardIndex - 1;
 		Card droppingCard = me.getCards().get(cardIndex);
-		me.getCards().remove(cardIndex - 1);
+		me.getCards().remove(cardIndex);
 		me.getCards().add(game.getOpenCard());
 		game.setOpenCard(droppingCard);
+		System.out.println("You dropped: " + droppingCard.getDisplayNumber());
 	}
 
 	private void initiateGame() {
