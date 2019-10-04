@@ -139,17 +139,7 @@ public class Game {
 		return card;
 	}
 
-	private String getSameCards(Player player) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < player.getCards().size(); i++) {
-			Card card1 = player.getCards().get(i);
-
-		}
-		return null;
-	}
-
 	public List<Integer> getCardIndicesSameOfOpenCard(Player systemPlayer) {
-		System.out.println(openCard.toString());
 		List<Integer> indices = new ArrayList<>();
 		for (int i = 0; i < systemPlayer.getCards().size(); i++) {
 			Card card = systemPlayer.getCards().get(i);
@@ -158,5 +148,13 @@ public class Game {
 			}
 		}
 		return indices;
+	}
+
+	public boolean hasSameCards(Player player) {
+		boolean flag = false;
+		List<Integer> indices = getCardIndicesSameOfOpenCard(player);
+		if (indices.size() > 0)
+			flag = true;
+		return flag;
 	}
 }

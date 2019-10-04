@@ -55,8 +55,9 @@ public class GameRunner {
 		addPlayers();
 		initiateGame();
 		do {
+			System.out.println("Joker: " + game.getRandomJokerCard().getDisplayNumber());
 			showCards(me);
-			showCards(systemPlayer);
+			// showCards(systemPlayer);
 			showPoints();
 
 			System.out.println();
@@ -66,8 +67,9 @@ public class GameRunner {
 			System.out.println("1. Challenge for points: " + game.calculatePoints(me));
 			System.out.println("2. Pick Open card: " + game.getOpenCard().getDisplayNumber() + ", and Drop my choice");
 			System.out.println("3. Pick card from deck, and Drop my choice");
-			System.out.println("4. Drop same cards");
-			System.out.println("5. Finish Game");
+			if (game.hasSameCards(me))
+				System.out.println("4. Drop same cards");
+			System.out.println("Type any other number to quit game");
 
 			option = Integer.parseInt(scanner.nextLine());
 			dispatchGameOption(option);
@@ -77,7 +79,8 @@ public class GameRunner {
 	private void showPoints() {
 		int points = game.calculatePoints(me);
 		System.out.println("My current points: " + points);
-		System.out.println("System current points: " + game.calculatePoints(systemPlayer));
+		// System.out.println("System current points: " +
+		// game.calculatePoints(systemPlayer));
 		System.out.println();
 	}
 
@@ -100,9 +103,14 @@ public class GameRunner {
 			break;
 		}
 		case 4: {
-			dropSameCards(me, game.getCardIndicesSameOfOpenCard(me));
-			System.out.println("You dropped same cards");
-			letSystemPlay();
+
+			if (game.hasSameCards(me)) {
+				dropSameCards(me, game.getCardIndicesSameOfOpenCard(me));
+				System.out.println("You dropped same cards");
+				letSystemPlay();
+			} else {
+				System.out.println("You don't have same cards");
+			}
 			break;
 		}
 		case 5: {
@@ -133,11 +141,12 @@ public class GameRunner {
 
 	private void challengeGame(Player player1, Player player2) {
 		int points = game.calculatePoints(player1);
-		System.out.println();
-		System.out.println(player1.getName() + " challenged for points: " + points);
-		System.out.println();
-
 		int points2 = game.calculatePoints(player2);
+
+		System.out.println();
+		System.out.println(player1.getName() + " challenged for : " + points + " points");
+		System.out.println(player2.getName() + " points: " + points2);
+		System.out.println();
 
 		if (points < points2) {
 			System.out.println(player1.getName() + " won the game");
@@ -206,8 +215,8 @@ public class GameRunner {
 			game.getDeck().addDroppedCard(card);
 			player.getCards().remove((int) cardIndices.get(i));
 		}
-		System.out.println("after dropping...");
-		showCards(player);
+		// System.out.println("after dropping...");
+		// showCards(player);
 	}
 
 	private void initiateGame() {
@@ -225,7 +234,7 @@ public class GameRunner {
 		myTurn = !myTurn;
 
 		showCards(me);
-		showCards(systemPlayer);
+		// showCards(systemPlayer);
 
 		if (!myTurn)
 			letSystemPlay();
