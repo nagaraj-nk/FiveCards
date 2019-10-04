@@ -46,18 +46,20 @@ public class GameRunner {
 		initiateGame();
 		do {
 			showCards(me);
-			showMyPoints();
+			showCards(systemPlayer);
+			showPoints();
 			System.out.println("What are you going to do?");
 
 			System.out.println("1. Challenge for points: " + game.calculatePoints(me));
 			System.out.println("2. Pick Open card: " + game.getOpenCard().getDisplayNumber() + ", and Drop my choice");
-			System.out.println("3. Drop same cards");
+			System.out.println("3. Pick card from deck, and Drop my choice");
+			System.out.println("4. Drop same cards");
 			option = Integer.parseInt(scanner.nextLine());
 			dispatchGameOption(option);
 		} while (option >= 1 && option <= 2);
 	}
 
-	private void showMyPoints() {
+	private void showPoints() {
 		int points = game.calculatePoints(me);
 		System.out.println("My Points: " + points);
 		System.out.println("System points: " + game.calculatePoints(systemPlayer));
@@ -71,11 +73,38 @@ public class GameRunner {
 			break;
 		}
 		case 2: {
-			pickOpenCardAndDropMyChoice();
+			pickOpenCardAndDropMyChoice(true);
+			letSystemPlay();
+			break;
+		}
+		case 3: {
+			pickOpenCardAndDropMyChoice(false);
+			letSystemPlay();
+			break;
+		}
+		case 4: {
+			dropSameCards(me, game.getCardIndicesSameOfOpenCard(me));
+			System.out.println("You dropped same cards");
 			letSystemPlay();
 			break;
 		}
 		}
+	}
+
+	private void pickOpenCardAndDropMyChoice(boolean flag) {
+		System.out.println("Which card you want to drop?");
+		listMyCards();
+		int cardIndex = Integer.parseInt(scanner.nextLine());
+		cardIndex = cardIndex - 1;
+		Card droppingCard = me.getCards().get(cardIndex);
+		me.getCards().remove(cardIndex);
+		if (flag)
+			me.getCards().add(game.getOpenCard());
+		else
+			me.getCards().add(game.pickCardFromDeck());
+		game.setOpenCard(droppingCard);
+		game.getDeck().addDroppedCard(droppingCard);
+		System.out.println("You dropped: " + droppingCard.getDisplayNumber());
 	}
 
 	private void challengeGame() {
@@ -102,20 +131,17 @@ public class GameRunner {
 	}
 
 	private void letSystemPlay() {
-
-		showCards(systemPlayer);
 		if (game.getOpenCard().getValue() >= 6) {
 			List<Integer> cardIndices = game.getCardIndicesSameOfOpenCard(systemPlayer);
 			if (cardIndices.size() > 0) {
 				dropSameCards(systemPlayer, cardIndices);
+				System.out.println("System dropped same cards: " + game.getOpenCard().getDisplayNumber());
 			} else {
 				pickEitherOpenCardOrFromDeck();
 			}
 		} else {
 			pickEitherOpenCardOrFromDeck();
 		}
-		showCards(systemPlayer);
-
 	}
 
 	private void pickEitherOpenCardOrFromDeck() {
@@ -126,28 +152,20 @@ public class GameRunner {
 		System.out.println("System dropped: " + game.getOpenCard().getDisplayNumber());
 		if (option == 1) {
 			systemPlayer.getCards().add(game.getOpenCard());
+			System.out.println("System picked open card");
 		} else if (option == 2) {
 			Card card = game.pickCardFromDeck();
 			systemPlayer.getCards().add(card);
+			System.out.println("System picked card from deck");
 		}
 	}
 
 	private void dropSameCards(Player player, List<Integer> cardIndices) {
 		for (int i = 0; i < cardIndices.size(); i++) {
+			Card card = player.getCards().get(cardIndices.get(i));
+			game.getDeck().addDroppedCard(card);
 			player.getCards().remove((int) cardIndices.get(i));
 		}
-	}
-
-	private void pickOpenCardAndDropMyChoice() {
-		System.out.println("Which card you want to drop?");
-		listMyCards();
-		int cardIndex = Integer.parseInt(scanner.nextLine());
-		cardIndex = cardIndex - 1;
-		Card droppingCard = me.getCards().get(cardIndex);
-		me.getCards().remove(cardIndex);
-		me.getCards().add(game.getOpenCard());
-		game.setOpenCard(droppingCard);
-		System.out.println("You dropped: " + droppingCard.getDisplayNumber());
 	}
 
 	private void initiateGame() {
