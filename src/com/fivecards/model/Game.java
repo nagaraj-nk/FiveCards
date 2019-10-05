@@ -13,7 +13,6 @@ public class Game {
 	private Deck deck;
 	private Card randomJokerCard;
 	private Card openCard;
-	private static int SYSTEM_CHALLENGE_POINTS[] = { 10, 15, 20, 25 };
 	private int systemChallengingPoint;
 
 	public Card getRandomJokerCard() {
@@ -53,7 +52,7 @@ public class Game {
 	}
 
 	private void chooseSystemChallengingPoint() {
-		systemChallengingPoint = SYSTEM_CHALLENGE_POINTS[RandomGenerator.generateRandomNumber(0, 3)];
+		systemChallengingPoint = RandomGenerator.generateRandomNumber(1, 50);
 	}
 
 	public Deck getDeck() {
@@ -94,12 +93,11 @@ public class Game {
 		}
 	}
 
-	public void showRandomJokerCard() {
+	public void pickJokerCard() {
 		double num = deck.getCards().size();
 		int randomInt = (int) (num * Math.random());
 		randomJokerCard = deck.getCards().get(randomInt);
 		deck.getCards().remove(randomInt);
-		System.out.println("Joker card: " + randomJokerCard.getDisplayNumber());
 	}
 
 	public Card pickCardFromDeck() {
@@ -139,22 +137,26 @@ public class Game {
 		return card;
 	}
 
-	public List<Integer> getCardIndicesSameOfOpenCard(Player systemPlayer) {
-		List<Integer> indices = new ArrayList<>();
+	public List<Card> getCardsSameOfOpenCard(Player systemPlayer) {
+		List<Card> sameCards = new ArrayList<>();
 		for (int i = 0; i < systemPlayer.getCards().size(); i++) {
 			Card card = systemPlayer.getCards().get(i);
 			if (card.getCode().equals(openCard.getCode())) {
-				indices.add(i);
+				sameCards.add(card);
 			}
 		}
-		return indices;
+		return sameCards;
 	}
 
 	public boolean hasSameCards(Player player) {
 		boolean flag = false;
-		List<Integer> indices = getCardIndicesSameOfOpenCard(player);
-		if (indices.size() > 0)
+		List<Card> cards = getCardsSameOfOpenCard(player);
+		if (cards.size() > 0)
 			flag = true;
 		return flag;
+	}
+
+	public boolean hasRummyCards(Player player) {
+		return player.hasRummyCards();
 	}
 }

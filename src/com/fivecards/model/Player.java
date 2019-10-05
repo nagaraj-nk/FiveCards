@@ -1,5 +1,6 @@
 package com.fivecards.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -72,4 +73,33 @@ public class Player {
 		}
 	}
 
+	public List<Card> getRummyCards() {
+		List<Card> rummyCards = new ArrayList<>();
+		Card bigCard = null;
+		bigCard = cards.get(cards.size() - 1);
+
+		for (int index = cards.size() - 2; index >= 0; index--) {
+			if (bigCard.getCode().equals(cards.get(index).getCode())) {
+				rummyCards.add(cards.get(index));
+			} else {
+				if (rummyCards.size() > 0) {
+					break;
+				} else {
+					bigCard = cards.get(index);
+				}
+			}
+		}
+
+		if (rummyCards.size() >= 1) {
+			rummyCards.add(bigCard);
+		}
+		return rummyCards;
+	}
+
+	public boolean hasRummyCards() {
+		boolean flag = false;
+		if (getRummyCards().size() > 0)
+			flag = true;
+		return flag;
+	}
 }
