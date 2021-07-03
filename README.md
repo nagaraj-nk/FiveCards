@@ -1,4 +1,4 @@
-"# FiveCards - Java Command Line App" 
+# FiveCards - Java Command Line App
 
 Steps to run Game:
 
